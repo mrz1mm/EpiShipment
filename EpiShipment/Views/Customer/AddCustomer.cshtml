@@ -1,0 +1,83 @@
+﻿@model EpiShipment.Models.Dto.CustomerDto
+
+@{
+    ViewData["Title"] = "AddCustomer";
+}
+
+<h1>AddCustomer</h1>
+
+<h4>CustomerDto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddCustomer" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CustomerType" class="control-label">Customer Type:</label>
+                <div>
+                    <input type="radio" asp-for="CustomerType" value="Private" /> Private
+                    <input type="radio" asp-for="CustomerType" value="Business" checked /> Business
+                </div>
+                <span asp-validation-for="CustomerType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerName" class="control-label"></label>
+                <input asp-for="CustomerName" class="form-control" />
+                <span asp-validation-for="CustomerName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerSurname" class="control-label"></label>
+                <input asp-for="CustomerSurname" class="form-control" />
+                <span asp-validation-for="CustomerSurname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerBusinessName" class="control-label"></label>
+                <input asp-for="CustomerBusinessName" class="form-control" />
+                <span asp-validation-for="CustomerBusinessName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerTaxIdCode" class="control-label"></label>
+                <input asp-for="CustomerTaxIdCode" class="form-control" />
+                <span asp-validation-for="CustomerTaxIdCode" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="vatNumberField">
+                <label asp-for="CustomerVATNumber" class="control-label"></label>
+                <input asp-for="CustomerVATNumber" class="form-control" />
+
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        let vatNumberField = document.getElementById("vatNumberField");
+        let customerTypeRadios = document.querySelectorAll("input[name='CustomerType']");
+        customerTypeRadios.forEach(radio => {
+            radio.addEventListener("change", () => {
+                if (radio.value === "Business") {
+                    vatNumberField.style.display = "block";
+                } else {
+                    vatNumberField.style.display = "none";
+                }
+            });
+        });
+        var selectedRadio = document.querySelector("input[name='CustomerType']:checked");
+        if (selectedRadio.value === "Business") {
+            vatNumberField.style.display = "block";
+        } else {
+            vatNumberField.style.display = "none";
+        }
+    </script>
+}
